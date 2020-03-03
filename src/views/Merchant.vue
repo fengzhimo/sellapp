@@ -34,8 +34,31 @@
 
         </div>
 
-        <div>
-            
+        <div class="notice" style="padding: 0.5em 1em">
+            <p>公告与活动</p>
+            <div class="describe">
+            <p>{{this.data.bulletin}}</p>
+            </div>
+            <div>
+                <div v-for="item in this.data.supports" :key="item.id"  class="activity">
+                    <p style="padding:0.5em 0em">      
+                        <img v-show=" item.type ==  0" src="../assets/imgs/discount_1@2x.png" style="width:20px">
+                        <img v-show=" item.type ==  1" src="../assets/imgs/decrease_1@2x.png" style="width:20px">
+                        <img v-show=" item.type ==  2" src="../assets/imgs/invoice_1@2x.png" style="width:20px">
+                        {{ item.description }}
+                    </p>
+                </div>
+            </div>
+        </div>
+      
+        <div class="science" >
+            <p>商家实景</p>
+            <p class="p-box"><img :src="v" v-for="(v,i) in this.data.pics" :key="i"></p>
+        </div>
+        <div class="information">
+            <p>商家信息</p>
+            <p v-for="(v,i) in this.data.infos" :key="i" class="details">{{v}}</p>
+
         </div>
 
     </div>
@@ -54,6 +77,7 @@ export default {
         getSeller().then((res) => {                
                 console.log(res.data.data.supports[0].description)
                 this.data=res.data.data;
+                console.log(this.data.supports)
                 })
 
     }
@@ -104,6 +128,63 @@ export default {
         font-size: 22px;
         color: #000;
     }
+}
+.notice{
+    p:nth-of-type(1){
+        font-size: 18px
+    }
+    .describe{
+        height: 100px;
+        border-bottom: 1px solid #ccc;
+        p{
+            color: red;
+            font-size: 14px;
+            margin-left: 20px;
+        }
+    }
+    .activity{
+        p{
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        border-bottom: 1px solid #ccc;
+        }
+
+    }   
+}
+.science{
+    height: 140px;
+    border-bottom: 1px solid #ccc;
+    p:nth-of-type(1){
+        font-size: 18px;
+        padding: 0.5em 1em;
+    }
+    .p-box{
+        img{
+            width: 80px;
+            height: 60px;
+            margin: 2%;
+
+        }
+    }    
+}
+.information{
+     p:nth-of-type(1){
+        font-size: 18px;
+        padding: 0.5em 1em;
+        border-bottom: 1px solid #ccc;
+    }   
+     .details{
+        font-size: 14px;
+        height: 40px;
+        line-height: 40px;
+        border-bottom: 1px solid #ccc;
+        text-indent: 20px;
+
+    }   
+    p:last-of-type{
+        margin-bottom: 40px;
+    }  
 }
 
 </style>

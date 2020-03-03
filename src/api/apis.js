@@ -6,7 +6,7 @@ import axios from 'axios'
 // 完全等效
 //创建一个请求对象
 let req = axios.create({
-    baseURL: 'http://localhost:3000', // 基本路径
+    baseURL: 'http://192.168.1.3:3000', // 基本路径
     timeout:  10000  //ms  请求10秒，如果10秒还没有请求到，则提示超时！！（8-12秒） 超时限制！
 })
 

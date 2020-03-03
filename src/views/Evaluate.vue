@@ -36,32 +36,22 @@
     <div class="content">
         <p><Icon type="ios-add-circle-outline" />只看有内容的评价</p>
     </div>
-    <div class="comment" v-for="(v,i) in data"  :key="i">
-        <div class="portrait">
-            <!-- <img :src="data[i].avatar" alt=""> -->头像
-       </div>
-       <div class="area">
-           <div class="footer">
-               <p>{{data[i].username}}</p>
-               <p>{{data[i].rateTime}}</p>
-           </div>
-           <div class="center">
-                <img src="../assets/imgs/star24_on@2x.png" alt="">
-                <img src="../assets/imgs/star24_on@2x.png" alt="">
-                <img src="../assets/imgs/star24_on@2x.png" alt="">
-                <img src="../assets/imgs/star24_on@2x.png" alt="">
-                <img src="../assets/imgs/star36_off@2x.png" alt="">
-                <span>{{data[i].deliveryTime}}分钟送达</span>
+            <div class="list">
+                <div v-for="msg in data" :key="msg.id">
+                    
+                    <div class="msg">
+                        <div class="left"><img :src="msg.avatar" alt=""></div>
+                        <div class="right">
+                            <p><span>{{msg.username}}</span><span>{{msg.rateTime}}</span></p>
+                            <p><span>{{msg.deliveryTime ? msg.deliveryTime+`分钟送达`:''}}</span></p>
+                            <p>{{msg.text}}</p>
+                            <p>
+                                <span  v-for="good in msg.recommend" :key="good.name">{{good}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="text">
-                <p>{{data[i].text}}</p>
-
-            </div>
-            <div class="commend">
-            </div>
-       </div>
-        
-    </div>
     </div>
 </template>
 
@@ -78,6 +68,35 @@ export default {
         getRating().then((res) => {                
                 // console.log(res.data.data)
                 this.data=res.data.data;
+                      this.data.forEach(function(v) {
+        function newtime(sjx) {
+          var sj = new Date(sjx);
+          var year = sj.getFullYear();
+          var month = sj.getMonth() + 1;
+          if (month < 10) {
+            month = "0" + month;
+          }
+          var day = sj.getDate();
+          if (day < 10) {
+            day = "0" + day;
+          }
+          var hours = sj.getHours();
+          if (hours < 10) {
+            hours = "0" + hours;
+          }
+          var minutes = sj.getMinutes();
+          if (minutes < 10) {
+            minutes = "0" + minutes;
+          }
+          var seconds = sj.getSeconds();
+          if (seconds < 10) {
+            seconds = "0" + seconds;
+          }
+          return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        }
+        v.rateTime = newtime(v.rateTime);
+      });
+                
                 
             })
 
@@ -171,36 +190,60 @@ export default {
     align-items: center;
     color: #ccc;
 }
-.comment{
-    display: flex;
-    height: 100px;
-    border-bottom: 1px solid #ccc;
-    .portrait{
-        width: 60px;
-    }
-    .area{
-        flex: 1;
-        align-items: center;
-        .footer{
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
-        
-        }
-        .center{
-            display: flex;
-            align-items: center;            
-            img{
-                width: 10px;
-                height: 10px;
+        .list{
+            border-top: 1px solid #e5e6e8;
+            .msg{
+                padding: 20px;
+                border-bottom: 1px solid #e5e6e8;
+                display: flex;
+                .left{
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 15px;
+                    margin-right: 10px;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .right{
+                    flex: 1;
+                    color: #97989A;
+                    p:nth-of-type(1){
+                        font-size: 12px;
+                        display: flex;
+                        justify-content: space-between;
+                        span:nth-child(1){ 
+                            color: #1B2026;
+                        }
+                    }
+                    p:nth-of-type(2){
+                        font-size: 12px;  
+                        line-height: 14px;
+                        margin: 5px 0;  
+                    }
+                    p:nth-of-type(3){
+                        font-size: 14px;
+                        color: #1B2026;
+                        width: 300px;
+                        white-space: wrap;
+                    }
+                    p:nth-of-type(4){
+                        width: 70%;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow:ellipsis;
+                        span{
+                            display: inline-block;
+                            width: 50px;
+                            height: 12px;
+                            border: 1px solid #e5e6e8;
+                            margin-right: 5px;
+                            font-size: 10px;
+                            text-align: center;
+                        }
+                    }
+                }
             }
-            span{
-                color: #ccc;
-                margin-left: 10px;
-                font-size: 12px;
-            }            
         }
-        
-    }
-}
 </style>
